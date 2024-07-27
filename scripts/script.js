@@ -12,15 +12,25 @@ const donations = [];
 document.getElementById('addDonation').addEventListener('click', function() {
     const donorName = document.getElementById('donorName').value.trim();
     const donationAmount = parseFloat(document.getElementById('donationAmount').value);
+    const editingIndex = document.getElementById('editingIndex').value;
 
     if (donorName && !isNaN(donationAmount)) {
+        if (editingIndex !== "") {
+            // Edit existing donation
+            const oldDonation = donations[editingIndex];
+            totalValue -= oldDonation.donationAmount;
+            donations[editingIndex] = { donorName, donationAmount };
+        } else {
+            // Add new donation
+            donations.push({ donorName, donationAmount });
+        }
+        
         totalValue += donationAmount;
 
         const percentage = Math.min((totalValue / maxValue) * 100, 100);
         document.getElementById('progressBar').style.height = percentage + '%';
         document.getElementById('progressText').textContent = `Q${totalValue.toFixed(2)} / Q${maxValue.toFixed(2)} (${percentage.toFixed(2)}%)`;
 
-        donations.push({ donorName, donationAmount });
         updateTable();
 
         if (totalValue >= 35000 && !document.getElementById('message-35000')) {
@@ -30,10 +40,11 @@ document.getElementById('addDonation').addEventListener('click', function() {
         if (totalValue >= maxValue) {
             showConfetti();
             setTimeout(() => {
-                showMessage('¡Lo logramos! Gracias por tus donaciones');
+                showMessage('¡Lo logramos! Gracias por las donaciones que Dios los Benndiga!');
             }, 500);
         }
 
+        document.getElementById('editingIndex').value = '';
         document.getElementById('donorName').value = '';
         document.getElementById('donationAmount').value = '';
     }
@@ -61,14 +72,21 @@ function updateTable() {
     const end = start + donationsPerPage;
     const currentDonations = donations.slice(start, end);
 
-    currentDonations.forEach(donation => {
+    currentDonations.forEach((donation, index) => {
         const row = document.createElement('tr');
-        row.innerHTML = `<td>${donation.donorName}</td><td>Q${donation.donationAmount.toFixed(2)}</td>`;
+        row.innerHTML = `<td>${donation.donorName}</td><td>Q${donation.donationAmount.toFixed(2)}</td><td><button onclick="editDonation(${start + index})">Editar</button></td>`;
         donationsTable.appendChild(row);
     });
 
     document.getElementById('prevPage').disabled = currentPage === 1;
     document.getElementById('nextPage').disabled = currentPage === Math.ceil(donations.length / donationsPerPage);
+}
+
+function editDonation(index) {
+    const donation = donations[index];
+    document.getElementById('donorName').value = donation.donorName;
+    document.getElementById('donationAmount').value = donation.donationAmount;
+    document.getElementById('editingIndex').value = index;
 }
 
 function showMessage(message) {

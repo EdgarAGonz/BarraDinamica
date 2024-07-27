@@ -3,13 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Termómetro de Donaciones</title>
+    <title>Donaciones Angeles de Esperanza</title>
     <link rel="stylesheet" href="styles/styles.css">
 </head>
 <body>
     <div class="container">
         <div class="header">
-            <h1>Termómetro de Donaciones</h1>
+            <h1>Donaciones Angeles de Esperanza</h1>
+            <img src="images/logo.png" alt="Angeles de Esperanza" class="header-image">
             <p>Meta: Q40,000.00</p>
         </div>
         <div class="content-top">
@@ -29,9 +30,10 @@
                 </div>
             </div>
             <div class="donation-form">
+                <input type="hidden" id="editingIndex" value="">
                 <input type="text" id="donorName" placeholder="Nombre del donante">
                 <input type="number" id="donationAmount" placeholder="Cantidad de la donación">
-                <button id="addDonation">Agregar Donación</button>
+                <button id="addDonation">Agregar/Actualizar Donación</button>
             </div>
             <div class="messages-container" id="messages"></div>
         </div>
@@ -43,6 +45,7 @@
                         <tr>
                             <th>Nombre</th>
                             <th>Cantidad</th>
+                            <th>Acciones</th>
                         </tr>
                     </thead>
                     <tbody></tbody>

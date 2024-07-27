@@ -12,12 +12,7 @@
             <h1>Termómetro de Donaciones</h1>
             <p>Meta: Q40,000.00</p>
         </div>
-        <div class="donation-form">
-            <input type="text" id="donorName" placeholder="Nombre del donante">
-            <input type="number" id="donationAmount" placeholder="Cantidad de la donación">
-            <button id="addDonation">Agregar Donación</button>
-        </div>
-        <div class="main-content">
+        <div class="content-top">
             <div class="thermometer-container">
                 <div class="thermometer">
                     <div class="progress-bar" id="progressBar"></div>
@@ -25,14 +20,39 @@
                         <div class="segment" style="bottom: 25%">Q10,000</div>
                         <div class="segment" style="bottom: 50%">Q20,000</div>
                         <div class="segment" style="bottom: 75%">Q30,000</div>
-                        <div class="segment" style="bottom: 100%">Q40,000</div>
+                        <div class="segment" style="bottom: 85%">Q35,000</div>
+                        <div class="segment" style="bottom: 96%">Q40,000</div>
                     </div>
                 </div>
-                <p id="progressText">Q0 / Q40,000 (0%)</p>
+                <div class="progress-summary">
+                    <p id="progressText">Q0 / Q40,000 (0%)</p>
+                </div>
+            </div>
+            <div class="donation-form">
+                <input type="text" id="donorName" placeholder="Nombre del donante">
+                <input type="number" id="donationAmount" placeholder="Cantidad de la donación">
+                <button id="addDonation">Agregar Donación</button>
             </div>
             <div class="messages-container" id="messages"></div>
         </div>
-        <ul id="donationsList"></ul>
+        <div class="content-bottom">
+            <div class="donations-list">
+                <h2>Donaciones</h2>
+                <table id="donationsTable">
+                    <thead>
+                        <tr>
+                            <th>Nombre</th>
+                            <th>Cantidad</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+                <div class="pagination">
+                    <button id="prevPage" disabled>&laquo; Anterior</button>
+                    <button id="nextPage">Siguiente &raquo;</button>
+                </div>
+            </div>
+        </div>
         <div id="confetti"></div>
     </div>
     <script src="scripts/script.js"></script>

@@ -2,16 +2,17 @@ body {
     font-family: 'Arial', sans-serif;
     display: flex;
     justify-content: center;
-    align-items: center;
-    height: 100vh;
+    align-items: flex-start;
+    min-height: 100vh;
     margin: 0;
     background: linear-gradient(to right, #4facfe, #00f2fe);
     color: #333;
+    padding: 20px 0;
 }
 
 .container {
     text-align: center;
-    max-width: 800px;
+    max-width: 900px;
     width: 100%;
     padding: 20px;
     background: #fff;
@@ -61,19 +62,23 @@ body {
     background-color: #5ca8a0;
 }
 
-.main-content {
+.content-top {
     display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
+    flex-direction: column;
+    align-items: center;
+    /* Elimina: position: sticky; top: 0; z-index: 100; */
+    padding-bottom: 20px;
+    margin-bottom: 20px;
 }
 
 .thermometer-container {
     position: relative;
-    height: 300px;
-    width: 50px;
+    height: 600px;
+    width: 150px;
     background-color: #e0e0e0;
-    border-radius: 25px;
+    border-radius: 50px;
     overflow: hidden;
+    margin-bottom: 20px;
 }
 
 .thermometer {
@@ -102,28 +107,64 @@ body {
     position: absolute;
     width: 100%;
     text-align: center;
-    font-size: 0.8em;
+    font-size: 1.2em;
     color: #555;
 }
 
+.progress-summary {
+    position: absolute;
+    bottom: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100%;
+}
+
 #progressText {
-    font-size: 1.2em;
+    font-size: 0.75em;
     color: #333;
-    margin-top: 10px;
+    margin: 0;
 }
 
-#donationsList {
-    list-style-type: none;
-    padding: 0;
-    margin: 20px 0;
+.content-bottom {
+    width: 100%; /* Asegurarse de que ocupe todo el ancho */
+    margin-top: 20px;
+    flex-grow: 1; /* Permite que crezca para llenar el espacio disponible */
 }
 
-#donationsList li {
+.donations-list {
+    margin-top: 20px;
+    height: 100%; /* Hacer que la lista ocupe toda la altura de su contenedor */
+}
+
+.donations-list h2 {
+    text-align: left;
+    margin-bottom: 10px;
+}
+
+#donationsTable {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 0 auto;
+    table-layout: fixed; /* Distribuir el ancho equitativamente entre las columnas */
+    height: 100%; /* Hacer que la tabla ocupe toda la altura de su contenedor */
+}
+
+#donationsTable th, #donationsTable td {
     padding: 10px;
-    margin: 5px 0;
-    background-color: #f9f9f9;
     border: 1px solid #ddd;
-    border-radius: 5px;
+    text-align: left;
+}
+
+#donationsTable th {
+    background-color: #f4f4f4;
+}
+
+#donationsTable tbody tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+#donationsTable tbody tr:hover {
+    background-color: #e9e9e9;
 }
 
 #confetti {
@@ -138,8 +179,7 @@ body {
 }
 
 .messages-container {
-    flex-grow: 1;
-    margin-left: 20px;
+    margin-top: 20px;
 }
 
 .message {
@@ -150,6 +190,31 @@ body {
     margin-bottom: 10px;
     opacity: 0;
     transition: opacity 0.5s ease-in-out;
+}
+
+.pagination {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 10px;
+}
+
+.pagination button {
+    padding: 5px 10px;
+    border: none;
+    background-color: #76c7c0;
+    color: white;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.pagination button:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+}
+
+.pagination button:hover:not(:disabled) {
+    background-color: #5ca8a0;
 }
 
 .confetti-piece {

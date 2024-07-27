@@ -1,12 +1,13 @@
 let totalValue = 0;
 const maxValue = 40000;
 const messages = [
-    "¡Vamos, estamos cerca!",
-    "¡Cada donación cuenta!",
-    "¡Sigamos así, juntos lo lograremos!",
     "¡Estamos a punto de alcanzar la meta!",
     "¡Lo logramos! Gracias por tus donaciones"
 ];
+
+const donationsPerPage = 5;
+let currentPage = 1;
+const donations = [];
 
 document.getElementById('addDonation').addEventListener('click', function() {
     const donorName = document.getElementById('donorName').value.trim();
@@ -16,40 +17,58 @@ document.getElementById('addDonation').addEventListener('click', function() {
         totalValue += donationAmount;
 
         const percentage = Math.min((totalValue / maxValue) * 100, 100);
-        const progressBar = document.getElementById('progressBar');
-        const progressText = document.getElementById('progressText');
+        document.getElementById('progressBar').style.height = percentage + '%';
+        document.getElementById('progressText').textContent = `Q${totalValue.toFixed(2)} / Q${maxValue.toFixed(2)} (${percentage.toFixed(2)}%)`;
 
-        progressBar.style.height = percentage + '%';
-        progressText.textContent = `Q${totalValue} / Q${maxValue} (${percentage.toFixed(2)}%)`;
+        donations.push({ donorName, donationAmount });
+        updateTable();
 
-        const donationsList = document.getElementById('donationsList');
-        const listItem = document.createElement('li');
-        listItem.textContent = `${donorName} donó Q${donationAmount}`;
-        donationsList.appendChild(listItem);
-
-        document.getElementById('donorName').value = '';
-        document.getElementById('donationAmount').value = '';
-
-        checkSegments();
+        if (totalValue >= 35000 && !document.getElementById('message-35000')) {
+            showMessage('¡Estamos a punto de alcanzar la meta!');
+        }
 
         if (totalValue >= maxValue) {
             showConfetti();
             setTimeout(() => {
-                showMessage(messages[messages.length - 1]);
-                alert('¡Lo logramos! Gracias por tus donaciones');
+                showMessage('¡Lo logramos! Gracias por tus donaciones');
             }, 500);
         }
+
+        document.getElementById('donorName').value = '';
+        document.getElementById('donationAmount').value = '';
     }
 });
 
-function checkSegments() {
-    const thresholds = [10000, 20000, 30000];
-    thresholds.forEach((amount, index) => {
-        if (totalValue >= amount && !document.getElementById(`message-${amount}`)) {
-            showMessage(messages[index]);
-            document.getElementById(`message-${amount}`);
-        }
+document.getElementById('prevPage').addEventListener('click', function() {
+    if (currentPage > 1) {
+        currentPage--;
+        updateTable();
+    }
+});
+
+document.getElementById('nextPage').addEventListener('click', function() {
+    if (currentPage < Math.ceil(donations.length / donationsPerPage)) {
+        currentPage++;
+        updateTable();
+    }
+});
+
+function updateTable() {
+    const donationsTable = document.querySelector('#donationsTable tbody');
+    donationsTable.innerHTML = '';
+
+    const start = (currentPage - 1) * donationsPerPage;
+    const end = start + donationsPerPage;
+    const currentDonations = donations.slice(start, end);
+
+    currentDonations.forEach(donation => {
+        const row = document.createElement('tr');
+        row.innerHTML = `<td>${donation.donorName}</td><td>Q${donation.donationAmount.toFixed(2)}</td>`;
+        donationsTable.appendChild(row);
     });
+
+    document.getElementById('prevPage').disabled = currentPage === 1;
+    document.getElementById('nextPage').disabled = currentPage === Math.ceil(donations.length / donationsPerPage);
 }
 
 function showMessage(message) {

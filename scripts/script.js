@@ -40,7 +40,7 @@ document.getElementById('addDonation').addEventListener('click', function() {
         if (totalValue >= maxValue) {
             showConfetti();
             setTimeout(() => {
-                showMessage('¡Lo logramos! Gracias por las donaciones que Dios los Benndiga!');
+                showMessage('¡Lo logramos! Gracias por las donaciones que Dios los Bendiga!');
             }, 500);
         }
 
